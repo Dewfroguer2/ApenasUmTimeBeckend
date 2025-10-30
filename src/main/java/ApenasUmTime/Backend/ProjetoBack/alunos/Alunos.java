@@ -2,6 +2,9 @@ package ApenasUmTime.Backend.ProjetoBack.alunos;
 
 
 import jakarta.persistence.*;
+import org.springframework.web.bind.annotation.Mapping;
+
+import java.util.List;
 
 @Entity
 @Table(name="alunos")
@@ -20,8 +23,12 @@ public class Alunos {
     @Column(unique = true, nullable = false)
     private String cpf;
 
-    @Column(nullable = false)
-    private Integer cursoId;
+    @ManyToOne
+    @JoinColumn(name = "curso", nullable = false)
+    private Cursos curso;
+
+    @ManyToMany(mappedBy="entidade")
+    private List<Entidades> entidades = new List<Entidades>();
 
     @Column(nullable = false)
     private Integer semestre;
@@ -32,11 +39,10 @@ public class Alunos {
 
     public Alunos() {}
 
-    public Alunos(String nome, String email, String cpf, Integer cursoId, Integer semestre, String celular) {
+    public Alunos(String nome, String email, String cpf, Integer semestre, String celular) {
         this.nome = nome;
         this.email = email;
         this.cpf = cpf;
-        this.cursoId = cursoId;
         this.semestre = semestre;
         this.celular = celular;
     }
@@ -49,9 +55,6 @@ public class Alunos {
 
     public String getCpf() {return cpf;}
     public void setCpf(String cpf) {this.cpf = cpf;}
-
-    public Integer getCursoId() {return cursoId;}
-    public void setCursoId(Integer cursoId) {this.cursoId = cursoId;}
 
     public Integer getSemestre() {return semestre;}
     public void setSemestre(Integer semestre) {this.semestre = semestre;}
