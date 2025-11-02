@@ -12,7 +12,7 @@ import java.util.List;
 public class EntidadesService {
 
     @Autowired
-    private EntidadeRepository entidadeRepositore;
+    private EntidadesRepository entidadeRepositore;
 
     @Autowired
     private AlunosRepository alunosRepositore;

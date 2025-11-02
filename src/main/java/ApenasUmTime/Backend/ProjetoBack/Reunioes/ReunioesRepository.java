@@ -1,7 +1,8 @@
 package ApenasUmTime.Backend.ProjetoBack.Reunioes;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ReunioesRepository {
+public interface ReunioesRepository extends JpaRepository<Reunioes, Integer> {
 }
