@@ -1,5 +1,6 @@
 package ApenasUmTime.Backend.ProjetoBack.Entidades;
 
+import ApenasUmTime.Backend.ProjetoBack.alunos.Alunos;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 

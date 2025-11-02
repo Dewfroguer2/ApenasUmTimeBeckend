@@ -1,6 +1,8 @@
 package ApenasUmTime.Backend.ProjetoBack.Entidades;
 
 import ApenasUmTime.Backend.ProjetoBack.Entidades.EntidadesDTOs.EntidadeDtoComun;
+import ApenasUmTime.Backend.ProjetoBack.alunos.Alunos;
+import ApenasUmTime.Backend.ProjetoBack.alunos.AlunosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +15,7 @@ public class EntidadesService {
     private EntidadeRepository entidadeRepositore;
 
     @Autowired
-    private AlunosRepositore alunosRepositore;
+    private AlunosRepository alunosRepositore;
 
     public List<EntidadeDtoComun> listaEntidades() {
         return entidadeRepositore.findAll()

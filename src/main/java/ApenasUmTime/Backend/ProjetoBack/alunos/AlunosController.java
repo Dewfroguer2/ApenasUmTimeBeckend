@@ -31,7 +31,9 @@ public class AlunosController {
     }
 
     @PostMapping
-    public ResponseEntity<?> cadastrarAlunosController(@RequestBody AlunosRequestDTO alunoDTO){
+    public ResponseEntity<?> cadastrarAlunosController(
+            @RequestBody AlunosRequestDTO alunoDTO,
+            @RequestHeader("Authorization") String token){
         AlunosResponseDTO cadastrado = alunosService.cadastrarAlunos(alunoDTO);
         return ResponseEntity.ok(cadastrado);
     }

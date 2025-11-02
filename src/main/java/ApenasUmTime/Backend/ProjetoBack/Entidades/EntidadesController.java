@@ -1,6 +1,8 @@
 package ApenasUmTime.Backend.ProjetoBack.Entidades;
 
+
 import ApenasUmTime.Backend.ProjetoBack.Entidades.EntidadesDTOs.EntidadeDtoComun;
+import ApenasUmTime.Backend.ProjetoBack.alunos.Alunos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,7 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/entidades")
-public class EntidadeController {
+public class EntidadesController {
 
     @Autowired
     private EntidadesService entidadesService;
