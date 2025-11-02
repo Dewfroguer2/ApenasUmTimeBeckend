@@ -1,5 +1,7 @@
 package ApenasUmTime.Backend.ProjetoBack.cursos;
 
+import ApenasUmTime.Backend.ProjetoBack.autenticacao.Usuario;
+import ApenasUmTime.Backend.ProjetoBack.autenticacao.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,6 +11,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/cursos")
 public class CursosController {
+
+    @Autowired
+    private UsuarioService usuarioService;
 
     @Autowired
     private CursosService cursosService;
@@ -26,12 +31,19 @@ public class CursosController {
     }
 
     @PostMapping
-    public Cursos adicionarCurso(@RequestBody Cursos curso) {
+    public Cursos adicionarCurso(
+            @RequestBody Cursos curso,
+            @RequestHeader("Authorization") String token) {
+        Usuario usuario = usuarioService.validarToken(token);
         return cursosService.adicionarCurso(curso);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Cursos> atualizarCurso(@PathVariable Integer id, @RequestBody Cursos curso) {
+    public ResponseEntity<Cursos> atualizarCurso(
+            @PathVariable Integer id,
+            @RequestBody Cursos curso,
+            @RequestHeader("Authorization") String token) {
+        Usuario usuario = usuarioService.validarToken(token);
         try {
             return ResponseEntity.ok(cursosService.atualizarCurso(id, curso));
         } catch (RuntimeException e) {
@@ -40,7 +52,10 @@ public class CursosController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletarCurso(@PathVariable Integer id) {
+    public ResponseEntity<Void> deletarCurso(
+            @PathVariable Integer id,
+            @RequestHeader("Authorization") String token) {
+        Usuario usuario = usuarioService.validarToken(token);
         cursosService.deletarCurso(id);
         return ResponseEntity.noContent().build();
     }
