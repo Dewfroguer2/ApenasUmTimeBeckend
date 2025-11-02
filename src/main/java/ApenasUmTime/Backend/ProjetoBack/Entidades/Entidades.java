@@ -1,5 +1,6 @@
 package ApenasUmTime.Backend.ProjetoBack.Entidades;
 
+import ApenasUmTime.Backend.ProjetoBack.Reunioes.Reunioes;
 import ApenasUmTime.Backend.ProjetoBack.alunos.Alunos;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -20,8 +21,7 @@ public class Entidades {
     private String nicho;
     private String areas;
 
-    @ManyToOne
-    @JoinColumn(name = "id_Reunioes", unique = true)
+    @OneToMany(mappedBy = "entidade", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Reunioes> reunioslist;
 
     @ManyToMany
@@ -32,9 +32,9 @@ public class Entidades {
     @JoinTable(name = "Entidades_Eventos", joinColumns = @JoinColumn(name = "id_Eventos"), inverseJoinColumns = @JoinColumn(name = "id_Eventos"))
     private List<Eventos> eventosList;
 
-    public List<Alunos> getAlunos() { return alunos; }
+    public List<Alunos> getAlunos() { return alunosList; }
 
-    public void setAlunos(List<Alunos> alunos) { this.alunos = alunos; }
+    public void setAlunos(List<Alunos> alunos) { this.alunosList = alunos; }
 
     public String getAreas() { return areas; }
 
