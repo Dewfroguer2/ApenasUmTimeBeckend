@@ -46,7 +46,7 @@ public class EntidadesService {
 
     public void adicionaAluno(String nameEntidadade, Alunos aluno){
         Entidades entidade = entidadeRepositore.findByName(nameEntidadade);
-        Alunos alun = alunosRepositore.findByNome(aluno.getName());
+        Alunos alun = alunosRepositore.findByNome(aluno.getNome());
 
         if(alun == null){ throw new RuntimeException("Esse aluno não existe"); }
 
@@ -56,7 +56,7 @@ public class EntidadesService {
 
     public void removeAluno(String nameEntidadade, Alunos aluno){
         Entidades entidade = entidadeRepositore.findByName(nameEntidadade);
-        Alunos alun = alunosRepositore.findByNome(aluno.getName());
+        Alunos alun = alunosRepositore.findByNome(aluno.getNome());
 
         if(alun == null){ throw new RuntimeException("Esse aluno não existe"); }
 
