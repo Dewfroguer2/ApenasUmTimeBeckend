@@ -1,12 +1,16 @@
 package ApenasUmTime.Backend.ProjetoBack.alunos;
 
 
+import ApenasUmTime.Backend.ProjetoBack.alunos.dto.AlunosRequestDTO;
+import ApenasUmTime.Backend.ProjetoBack.alunos.dto.AlunosResponseDTO;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AlunosService {
@@ -15,50 +19,65 @@ public class AlunosService {
     private AlunosRepository repository;
 
 
-    public List<Alunos> listarAlunos() {
-        return repository.findAll();
+    public List<AlunosResponseDTO> listarAlunos() {
+        return repository.findAll()
+                .stream()
+                .map(AlunosResponseDTO::new)
+                .collect(Collectors.toList());
     }
 
-    public Alunos buscarPorCpf(String cpf) {
+    public AlunosResponseDTO buscarPorCpf(String cpf) {
         Alunos aluno = repository.findByCpf(cpf);
         if (aluno == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Aluno não encontrado.");
         }
-        return aluno;
+        return new AlunosResponseDTO(aluno);
     }
 
 
-    public Alunos cadastrarAlunos(Alunos aluno) {
-        if (aluno.getCpf() == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O CPF do aluno não pode ser nulo.");
+    @Transactional
+    public AlunosResponseDTO cadastrarAlunos(AlunosRequestDTO alunoDTO) {
+        if (alunoDTO.cpf() == null || alunoDTO == null || alunoDTO.cpf().isBlank()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Nenhum dos atributos da entidade aluno pode ser nulo.");
         }
 
-        Alunos existente = repository.findByCpf(aluno.getCpf());
+        Alunos existente = repository.findByCpf(alunoDTO.cpf());
         if (existente != null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Esse aluno já está cadastrado.");
         }
 
-        return repository.save(aluno);
+        Alunos novoAluno = new Alunos();
+        novoAluno.setCpf(alunoDTO.cpf());
+        novoAluno.setNome(alunoDTO.nome());
+        novoAluno.setEmail(alunoDTO.email());
+        novoAluno.setCelular(alunoDTO.celular());
+        novoAluno.setSemestre(alunoDTO.semestre());
+
+        Alunos salvo = repository.save(novoAluno);
+
+        return new AlunosResponseDTO(salvo);
     }
 
 
-    public Alunos editarAlunos(Alunos aluno) {
-        Alunos existente = repository.findByCpf(aluno.getCpf());
+    public AlunosResponseDTO editarAlunos(AlunosRequestDTO alunoDTO) {
+        Alunos existente = repository.findByCpf(alunoDTO.cpf());
         if (existente == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Esse aluno não está cadastrado");
         }
 
-        if (aluno.getCpf() != null) {existente.setCpf(aluno.getCpf());}
+        if (alunoDTO.cpf() != null) {existente.setCpf(alunoDTO.cpf());}
 
-        if (aluno.getNome() != null) {existente.setNome(aluno.getNome());}
+        if (alunoDTO.nome() != null) {existente.setNome(alunoDTO.nome());}
 
-        if (aluno.getCelular() != null) {existente.setCelular(aluno.getCelular());}
+        if (alunoDTO.celular() != null) {existente.setCelular(alunoDTO.celular());}
 
-        if (aluno.getSemestre() != null) {existente.setSemestre(aluno.getSemestre());}
+        if (alunoDTO.semestre() != null) {existente.setSemestre(alunoDTO.semestre());}
 
-        if (aluno.getEmail() != null) {existente.setEmail(aluno.getEmail());}
+        if (alunoDTO.email() != null) {existente.setEmail(alunoDTO.email());}
 
-        return repository.save(existente);
+        Alunos alutoEditado = repository.save(existente);
+
+        return new  AlunosResponseDTO(alutoEditado);
     }
 
 
