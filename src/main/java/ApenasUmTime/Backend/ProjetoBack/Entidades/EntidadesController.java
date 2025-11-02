@@ -3,6 +3,8 @@ package ApenasUmTime.Backend.ProjetoBack.Entidades;
 
 import ApenasUmTime.Backend.ProjetoBack.Entidades.EntidadesDTOs.EntidadeDtoComun;
 import ApenasUmTime.Backend.ProjetoBack.alunos.Alunos;
+import ApenasUmTime.Backend.ProjetoBack.autenticacao.Usuario;
+import ApenasUmTime.Backend.ProjetoBack.autenticacao.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +14,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/entidades")
 public class EntidadesController {
+
+    @Autowired
+    private UsuarioService usuarioService;
 
     @Autowired
     private EntidadesService entidadesService;
@@ -32,7 +37,10 @@ public class EntidadesController {
     }
 
     @PostMapping
-    public ResponseEntity<EntidadeDtoComun> criarEntidade(@RequestBody EntidadeDtoComun dto) {
+    public ResponseEntity<EntidadeDtoComun> criarEntidade(
+            @RequestBody EntidadeDtoComun dto,
+            @RequestHeader("Authorization") String token) {
+        Usuario usuario = usuarioService.validarToken(token);
         try {
             EntidadeDtoComun novaEntidade = entidadesService.criaEntidade(dto);
             return ResponseEntity.ok(novaEntidade);
@@ -42,8 +50,11 @@ public class EntidadesController {
     }
 
     @PostMapping("/{nomeEntidade}/adicionar-aluno")
-    public ResponseEntity<String> adicionarAluno( @PathVariable String nomeEntidade, @RequestBody Alunos aluno
-    ) {
+    public ResponseEntity<String> adicionarAluno(
+            @PathVariable String nomeEntidade,
+            @RequestBody Alunos aluno,
+            @RequestHeader("Authorization") String token) {
+        Usuario usuario = usuarioService.validarToken(token);
         try {
             entidadesService.adicionaAluno(nomeEntidade, aluno);
             return ResponseEntity.ok("Aluno adicionado com sucesso à entidade " + nomeEntidade);
@@ -53,7 +64,11 @@ public class EntidadesController {
     }
 
     @PostMapping("/{nomeEntidade}/remover-aluno")
-    public ResponseEntity<String> removerAluno( @PathVariable String nomeEntidade, @RequestBody Alunos aluno ) {
+    public ResponseEntity<String> removerAluno(
+            @PathVariable String nomeEntidade,
+            @RequestBody Alunos aluno,
+            @RequestHeader("Authorization") String token) {
+        Usuario usuario = usuarioService.validarToken(token);
         try {
             entidadesService.removeAluno(nomeEntidade, aluno);
             return ResponseEntity.ok("Aluno removido com sucesso da entidade " + nomeEntidade);
@@ -63,7 +78,10 @@ public class EntidadesController {
     }
 
     @DeleteMapping("/{nomeEntidade}")
-    public ResponseEntity<String> excluirEntidade(@PathVariable String nomeEntidade) {
+    public ResponseEntity<String> excluirEntidade(
+            @PathVariable String nomeEntidade,
+            @RequestHeader("Authorization") String token) {
+        Usuario usuario = usuarioService.validarToken(token);
         try {
             entidadesService.excluiEntidade(nomeEntidade);
             return ResponseEntity.ok("Entidade excluída com sucesso!");
