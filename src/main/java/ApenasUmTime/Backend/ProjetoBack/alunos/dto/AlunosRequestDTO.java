@@ -19,17 +19,11 @@ public record AlunosRequestDTO(
     @Schema(description="Semestre do aluno", example="3")
     Integer semestre,
 
-    @Schema(description="Celular do aluno", example="cabelinho@hotmail.com")
+    @Schema(description="Celular do aluno", example="11 4002-8922")
     String celular
 ) {
-    public AlunosRequestDTO(Alunos aluno) {
-        this(
-                aluno.getNome(),
-                aluno.getEmail(),
-                aluno.getCpf(),
-                aluno.getSemestre(),
-                aluno.getCelular()
-        );
+    public Alunos toEtity() {
+        return new Alunos(nome, email, cpf, semestre, celular);
     }
 }
 
