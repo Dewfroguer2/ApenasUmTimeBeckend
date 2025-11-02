@@ -20,21 +20,17 @@ public class Entidades {
     private String nicho;
     private String areas;
 
-
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_Reunioes", unique = true)
-    private List<Reunioes> reunioslist = new ArrayList<Reunioes>();
+    private List<Reunioes> reunioslist;
 
-    @JsonIgnore
     @ManyToMany
-    @JoinTable(name = "Alunos_Entidades", joinColumns = @JoinColumn(name = "id_Aluno"), inverseJoinColumns = @JoinColumn(name = "id_Aluno"));
-    private List<Alunos> alunos = new ArrayList<Alunos>();
+    @JoinTable(name = "Alunos_Entidades", joinColumns = @JoinColumn(name = "id_Aluno"), inverseJoinColumns = @JoinColumn(name = "id_Aluno"))
+    private List<Alunos> alunosList;
 
-    @JsonIgnore
     @ManyToMany
-    @JoinTable(name = "Entidades_Eventos", joinColumns = @JoinColumn(name = "id_Reuniao"), inverseJoinColumns = @JoinColumn(name = "id_Reuniao"));
-    private List<Alunos> alunos = new ArrayList<Alunos>();
+    @JoinTable(name = "Entidades_Eventos", joinColumns = @JoinColumn(name = "id_Eventos"), inverseJoinColumns = @JoinColumn(name = "id_Eventos"))
+    private List<Eventos> eventosList;
 
     public List<Alunos> getAlunos() { return alunos; }
 

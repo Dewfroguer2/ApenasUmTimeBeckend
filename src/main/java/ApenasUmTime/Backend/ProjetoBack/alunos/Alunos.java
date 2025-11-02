@@ -31,7 +31,7 @@ public class Alunos {
     private Cursos curso;
 
     @ManyToMany(mappedBy="entidade")
-    private List<Entidades> entidades = new List<Entidades>();
+    private List<Entidades> entidades;
 
     @Column(nullable = false)
     private Integer semestre;
