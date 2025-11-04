@@ -4,7 +4,7 @@ package ApenasUmTime.Backend.ProjetoBack.alunos;
 import ApenasUmTime.Backend.ProjetoBack.Entidades.Entidades;
 import ApenasUmTime.Backend.ProjetoBack.cursos.Cursos;
 import jakarta.persistence.*;
-import org.springframework.web.bind.annotation.Mapping;
+
 
 import java.util.Collection;
 import java.util.List;
@@ -30,8 +30,9 @@ public class Alunos {
     @JoinColumn(name = "curso", nullable = false)
     private Cursos curso;
 
-    @ManyToMany(mappedBy="entidade")
+    @ManyToMany(mappedBy = "alunosList")
     private List<Entidades> entidades;
+
 
     @Column(nullable = false)
     private Integer semestre;

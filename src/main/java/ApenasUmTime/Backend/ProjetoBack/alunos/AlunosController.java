@@ -45,7 +45,7 @@ public class AlunosController {
         return ResponseEntity.ok(cadastrado);
     }
 
-    @PutMapping("/{cpf")
+    @PutMapping("/{cpf}")
     public ResponseEntity<?> editarAlunosController(
             @PathVariable String cpf,
             @RequestBody AlunosRequestDTO alunoDTO,

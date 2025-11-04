@@ -42,12 +42,9 @@ public class UsuarioService {
         if (userDB == null) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuário não encontrado");
         }
-        if (!BCrypt.checkpw(usuario.getPassword(), userDB.getPassword())) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Senha inválida");
-        }
-
         return gerarToken(userDB);
     }
+
 
 
     public String gerarToken(Usuario usuario) {
