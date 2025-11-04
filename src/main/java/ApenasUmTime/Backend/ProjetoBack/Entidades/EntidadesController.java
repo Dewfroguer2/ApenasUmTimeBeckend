@@ -65,28 +65,32 @@ public class EntidadesController {
     }
 
     @PostMapping("/{nomeEntidade}/adicionar-aluno")
-    public ResponseEntity<String> adicionarAluno(
+    public ResponseEntity<?> adicionarAluno(
             @PathVariable String nomeEntidade,
             @RequestBody Alunos aluno,
             @RequestHeader("Authorization") String token) {
 
         try {
             entidadesService.adicionaAluno(nomeEntidade, aluno);
-            return ResponseEntity.ok("Aluno adicionado com sucesso à entidade " + nomeEntidade);
+            // Retornar a lista atualizada de alunos
+            List<AlunosResponseDTO> alunos = entidadesService.listarAlunosPorEntidade(nomeEntidade);
+            return ResponseEntity.ok(alunos);
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     @PostMapping("/{nomeEntidade}/remover-aluno")
-    public ResponseEntity<String> removerAluno(
+    public ResponseEntity<?> removerAluno(
             @PathVariable String nomeEntidade,
             @RequestBody Alunos aluno,
             @RequestHeader("Authorization") String token) {
 
         try {
             entidadesService.removeAluno(nomeEntidade, aluno);
-            return ResponseEntity.ok("Aluno removido com sucesso da entidade " + nomeEntidade);
+            // Retornar a lista atualizada de alunos
+            List<AlunosResponseDTO> alunos = entidadesService.listarAlunosPorEntidade(nomeEntidade);
+            return ResponseEntity.ok(alunos);
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

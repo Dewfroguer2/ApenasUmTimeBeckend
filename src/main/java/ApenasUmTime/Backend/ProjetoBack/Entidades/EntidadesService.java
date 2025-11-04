@@ -4,6 +4,7 @@ import ApenasUmTime.Backend.ProjetoBack.Entidades.EntidadesDTOs.EntidadeDtoComun
 import ApenasUmTime.Backend.ProjetoBack.alunos.Alunos;
 import ApenasUmTime.Backend.ProjetoBack.alunos.AlunosRepository;
 import ApenasUmTime.Backend.ProjetoBack.alunos.dto.AlunosResponseDTO;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,24 +46,47 @@ public class EntidadesService {
         return dto;
     }
 
+    @Transactional
     public void adicionaAluno(String nameEntidadade, Alunos aluno){
         Entidades entidade = entidadeRepositore.findByName(nameEntidadade);
+        if(entidade == null) { 
+            throw new RuntimeException("Entidade não encontrada"); 
+        }
+        
         Alunos alun = alunosRepositore.findByNome(aluno.getNome());
+        if(alun == null){ 
+            throw new RuntimeException("Esse aluno não existe"); 
+        }
 
-        if(alun == null){ throw new RuntimeException("Esse aluno não existe"); }
+        // Verificar se o aluno já está na entidade
+        if(entidade.getAlunos().contains(alun)) {
+            throw new RuntimeException("Aluno já está cadastrado nesta entidade");
+        }
 
-        alun.getEntidade().add(entidade);
+        // Adicionar às listas (o lado dono da relação é Entidades)
         entidade.getAlunos().add(alun);
+        
+        // Salvar as alterações no banco de dados (salvar apenas a entidade é suficiente para Many-to-Many)
+        entidadeRepositore.save(entidade);
     }
 
+    @Transactional
     public void removeAluno(String nameEntidadade, Alunos aluno){
         Entidades entidade = entidadeRepositore.findByName(nameEntidadade);
+        if(entidade == null) { 
+            throw new RuntimeException("Entidade não encontrada"); 
+        }
+        
         Alunos alun = alunosRepositore.findByNome(aluno.getNome());
+        if(alun == null){ 
+            throw new RuntimeException("Esse aluno não existe"); 
+        }
 
-        if(alun == null){ throw new RuntimeException("Esse aluno não existe"); }
-
-        alun.getEntidade().remove(entidade);
+        // Remover das listas (o lado dono da relação é Entidades)
         entidade.getAlunos().remove(alun);
+        
+        // Salvar as alterações no banco de dados (salvar apenas a entidade é suficiente para Many-to-Many)
+        entidadeRepositore.save(entidade);
     }
 
     public void excluiEntidade(String name){
