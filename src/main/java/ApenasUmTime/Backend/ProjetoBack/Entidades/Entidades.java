@@ -2,6 +2,7 @@ package ApenasUmTime.Backend.ProjetoBack.Entidades;
 
 import ApenasUmTime.Backend.ProjetoBack.Reunioes.Reunioes;
 import ApenasUmTime.Backend.ProjetoBack.alunos.Alunos;
+import ApenasUmTime.Backend.ProjetoBack.eventos.Eventos;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
