@@ -40,7 +40,7 @@ public class EntidadesController {
     public ResponseEntity<EntidadeDtoComun> criarEntidade(
             @RequestBody EntidadeDtoComun dto,
             @RequestHeader("Authorization") String token) {
-        Usuario usuario = usuarioService.validarToken(token);
+
         try {
             EntidadeDtoComun novaEntidade = entidadesService.criaEntidade(dto);
             return ResponseEntity.ok(novaEntidade);
@@ -54,7 +54,7 @@ public class EntidadesController {
             @PathVariable String nomeEntidade,
             @RequestBody Alunos aluno,
             @RequestHeader("Authorization") String token) {
-        Usuario usuario = usuarioService.validarToken(token);
+
         try {
             entidadesService.adicionaAluno(nomeEntidade, aluno);
             return ResponseEntity.ok("Aluno adicionado com sucesso à entidade " + nomeEntidade);
@@ -68,7 +68,7 @@ public class EntidadesController {
             @PathVariable String nomeEntidade,
             @RequestBody Alunos aluno,
             @RequestHeader("Authorization") String token) {
-        Usuario usuario = usuarioService.validarToken(token);
+
         try {
             entidadesService.removeAluno(nomeEntidade, aluno);
             return ResponseEntity.ok("Aluno removido com sucesso da entidade " + nomeEntidade);
@@ -81,7 +81,7 @@ public class EntidadesController {
     public ResponseEntity<String> excluirEntidade(
             @PathVariable String nomeEntidade,
             @RequestHeader("Authorization") String token) {
-        Usuario usuario = usuarioService.validarToken(token);
+
         try {
             entidadesService.excluiEntidade(nomeEntidade);
             return ResponseEntity.ok("Entidade excluída com sucesso!");

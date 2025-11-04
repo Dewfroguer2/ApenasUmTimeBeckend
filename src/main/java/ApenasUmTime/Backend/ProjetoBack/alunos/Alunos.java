@@ -3,11 +3,13 @@ package ApenasUmTime.Backend.ProjetoBack.alunos;
 
 import ApenasUmTime.Backend.ProjetoBack.Entidades.Entidades;
 import ApenasUmTime.Backend.ProjetoBack.cursos.Cursos;
+import ApenasUmTime.Backend.ProjetoBack.cursos.CursosService;
 import jakarta.persistence.*;
 
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 @Entity
 @Table(name="alunos")
@@ -27,8 +29,8 @@ public class Alunos {
     private String cpf;
 
     @ManyToOne
-    @JoinColumn(name = "curso", nullable = false)
-    private Cursos curso;
+    @JoinColumn(name = "curso", nullable = true)
+    private Optional<Cursos> curso;
 
     @ManyToMany(mappedBy = "alunosList")
     private List<Entidades> entidades;
@@ -43,7 +45,7 @@ public class Alunos {
 
     public Alunos() {}
 
-    public Alunos(String nome, String email, String cpf, Integer semestre, String celular) {
+    public Alunos(String nome, String email, String cpf, Integer semestre, String celular, Integer cursoId) {
         this.nome = nome;
         this.email = email;
         this.cpf = cpf;

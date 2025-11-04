@@ -3,6 +3,8 @@ package ApenasUmTime.Backend.ProjetoBack.alunos;
 
 import ApenasUmTime.Backend.ProjetoBack.alunos.dto.AlunosRequestDTO;
 import ApenasUmTime.Backend.ProjetoBack.alunos.dto.AlunosResponseDTO;
+import ApenasUmTime.Backend.ProjetoBack.cursos.Cursos;
+import ApenasUmTime.Backend.ProjetoBack.cursos.CursosService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,9 +40,6 @@ public class AlunosService {
 
     @Transactional
     public AlunosResponseDTO cadastrarAlunos(AlunosRequestDTO alunoDTO) {
-        if (alunoDTO.cpf() == null || alunoDTO == null || alunoDTO.cpf().isBlank()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Nenhum dos atributos da entidade aluno pode ser nulo.");
-        }
 
         Alunos existente = repository.findByCpf(alunoDTO.cpf());
         if (existente != null) {
@@ -52,6 +52,7 @@ public class AlunosService {
         novoAluno.setEmail(alunoDTO.email());
         novoAluno.setCelular(alunoDTO.celular());
         novoAluno.setSemestre(alunoDTO.semestre());
+
 
         Alunos salvo = repository.save(novoAluno);
 

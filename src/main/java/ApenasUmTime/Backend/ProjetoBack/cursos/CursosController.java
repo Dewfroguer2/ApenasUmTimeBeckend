@@ -32,9 +32,7 @@ public class CursosController {
 
     @PostMapping
     public Cursos adicionarCurso(
-            @RequestBody Cursos curso,
-            @RequestHeader("Authorization") String token) {
-        Usuario usuario = usuarioService.validarToken(token);
+            @RequestBody Cursos curso) {
         return cursosService.adicionarCurso(curso);
     }
 
@@ -43,7 +41,7 @@ public class CursosController {
             @PathVariable Integer id,
             @RequestBody Cursos curso,
             @RequestHeader("Authorization") String token) {
-        Usuario usuario = usuarioService.validarToken(token);
+
         try {
             return ResponseEntity.ok(cursosService.atualizarCurso(id, curso));
         } catch (RuntimeException e) {
@@ -55,7 +53,7 @@ public class CursosController {
     public ResponseEntity<Void> deletarCurso(
             @PathVariable Integer id,
             @RequestHeader("Authorization") String token) {
-        Usuario usuario = usuarioService.validarToken(token);
+
         cursosService.deletarCurso(id);
         return ResponseEntity.noContent().build();
     }

@@ -37,10 +37,7 @@ public class AlunosController {
 
     @PostMapping
     public ResponseEntity<?> cadastrarAlunosController(
-            @RequestBody AlunosRequestDTO alunoDTO,
-            @RequestHeader("Authorization") String token){
-
-        Usuario usuario = usuarioService.validarToken(token);
+            @RequestBody AlunosRequestDTO alunoDTO){
         AlunosResponseDTO cadastrado = alunosService.cadastrarAlunos(alunoDTO);
         return ResponseEntity.ok(cadastrado);
     }
@@ -48,10 +45,8 @@ public class AlunosController {
     @PutMapping("/{cpf}")
     public ResponseEntity<?> editarAlunosController(
             @PathVariable String cpf,
-            @RequestBody AlunosRequestDTO alunoDTO,
-            @RequestHeader("Authorization") String token){
+            @RequestBody AlunosRequestDTO alunoDTO){
 
-        Usuario usuario = usuarioService.validarToken(token);
         try {
             AlunosResponseDTO alunoEditado = alunosService.editarAlunos(alunoDTO);
             return ResponseEntity.ok(alunoEditado);

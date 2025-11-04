@@ -20,10 +20,13 @@ public record AlunosRequestDTO(
     Integer semestre,
 
     @Schema(description="Celular do aluno", example="11 4002-8922")
-    String celular
+    String celular,
+
+    @Schema(description="id do curso")
+    Integer idCurso
 ) {
     public Alunos toEtity() {
-        return new Alunos(nome, email, cpf, semestre, celular);
+        return new Alunos(nome, email, cpf, semestre, celular, null);
     }
 }
 
