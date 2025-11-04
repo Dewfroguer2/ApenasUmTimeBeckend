@@ -2,7 +2,6 @@ package ApenasUmTime.Backend.ProjetoBack.Entidades;
 
 import ApenasUmTime.Backend.ProjetoBack.Reunioes.Reunioes;
 import ApenasUmTime.Backend.ProjetoBack.alunos.Alunos;
-import ApenasUmTime.Backend.ProjetoBack.eventos.Eventos;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
@@ -29,9 +28,6 @@ public class Entidades {
     @JoinTable(name = "Alunos_Entidades", joinColumns = @JoinColumn(name = "id_Aluno"), inverseJoinColumns = @JoinColumn(name = "id_Aluno"))
     private List<Alunos> alunosList;
 
-    @ManyToMany
-    @JoinTable(name = "Entidades_Eventos", joinColumns = @JoinColumn(name = "id_Eventos"), inverseJoinColumns = @JoinColumn(name = "id_Eventos"))
-    private List<Eventos> eventosList;
 
     public List<Alunos> getAlunos() { return alunosList; }
 
