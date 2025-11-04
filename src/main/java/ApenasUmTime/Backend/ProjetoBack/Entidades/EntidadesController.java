@@ -3,6 +3,7 @@ package ApenasUmTime.Backend.ProjetoBack.Entidades;
 
 import ApenasUmTime.Backend.ProjetoBack.Entidades.EntidadesDTOs.EntidadeDtoComun;
 import ApenasUmTime.Backend.ProjetoBack.alunos.Alunos;
+import ApenasUmTime.Backend.ProjetoBack.alunos.dto.AlunosResponseDTO;
 import ApenasUmTime.Backend.ProjetoBack.autenticacao.Usuario;
 import ApenasUmTime.Backend.ProjetoBack.autenticacao.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,20 @@ public class EntidadesController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(entidade);
+    }
+
+    @GetMapping("/{nomeEntidade}/alunos")
+    public ResponseEntity<List<AlunosResponseDTO>> listarAlunosPorEntidade(
+            @PathVariable String nomeEntidade) {
+        try {
+            List<AlunosResponseDTO> alunos = entidadesService.listarAlunosPorEntidade(nomeEntidade);
+            return ResponseEntity.ok(alunos);
+        } catch (RuntimeException e) {
+            if (e.getMessage().contains("não encontrada")) {
+                return ResponseEntity.notFound().build();
+            }
+            return ResponseEntity.badRequest().body(null);
+        }
     }
 
     @PostMapping

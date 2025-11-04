@@ -3,6 +3,7 @@ package ApenasUmTime.Backend.ProjetoBack.Entidades;
 import ApenasUmTime.Backend.ProjetoBack.Entidades.EntidadesDTOs.EntidadeDtoComun;
 import ApenasUmTime.Backend.ProjetoBack.alunos.Alunos;
 import ApenasUmTime.Backend.ProjetoBack.alunos.AlunosRepository;
+import ApenasUmTime.Backend.ProjetoBack.alunos.dto.AlunosResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -67,6 +68,17 @@ public class EntidadesService {
     public void excluiEntidade(String name){
         Entidades entidades = entidadeRepositore.findByName(name);
         entidadeRepositore.delete(entidades);
+    }
+
+    public List<AlunosResponseDTO> listarAlunosPorEntidade(String nomeEntidade) {
+        Entidades entidade = entidadeRepositore.findByName(nomeEntidade);
+        if (entidade == null) {
+            throw new RuntimeException("Entidade não encontrada");
+        }
+        
+        return entidade.getAlunos().stream()
+                .map(AlunosResponseDTO::new)
+                .toList();
     }
 
 }
