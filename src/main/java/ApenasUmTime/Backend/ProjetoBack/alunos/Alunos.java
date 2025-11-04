@@ -28,10 +28,6 @@ public class Alunos {
     @Column(unique = true, nullable = false)
     private String cpf;
 
-    @ManyToOne
-    @JoinColumn(name = "curso", nullable = true)
-    private Optional<Cursos> curso;
-
     @ManyToMany(mappedBy = "alunosList")
     private List<Entidades> entidades;
 
@@ -42,10 +38,9 @@ public class Alunos {
     @Column(nullable = false)
     private String celular;
 
-
     public Alunos() {}
 
-    public Alunos(String nome, String email, String cpf, Integer semestre, String celular, Integer cursoId) {
+    public Alunos(String nome, String email, String cpf, Integer semestre, String celular) {
         this.nome = nome;
         this.email = email;
         this.cpf = cpf;
